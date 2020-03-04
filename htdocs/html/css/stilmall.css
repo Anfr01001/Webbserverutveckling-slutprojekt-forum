@@ -1,0 +1,296 @@
+@charset "UTF-8";
+
+body{
+	background:#f2f2f2;
+	background: linear-gradient(#f2f2f2, yellow);
+	background-repeat:no-repeat;
+}
+
+nav{
+	background-color:#f2f2f2;
+	color:#f2f2f2;
+	font-size:1.5em;
+	font-family:cursive;
+	font-weight:bold;
+	height:80px;
+	width:100%;
+	margin-top:15px;
+	margin-bottom: 15px;
+}
+
+ul{
+	list-style-type:none;
+	height:99%;
+	margin-top:0;
+	margin-bottom:0;
+}
+
+header{
+  height:70px;	
+}
+
+p{
+	padding-left:10px;
+}
+
+header>h1{
+	font-size:2.5em;
+	font-family:Verdana, arial;
+	text-align: center;
+	padding-top:10px;
+	margin:0;
+}
+
+ul li {
+	display: inline-block;
+	height: 90%;   
+	margin-left:8%;
+	margin-top:auto;
+	margin-bottom:auto;
+	background: red;
+	background: linear-gradient(red, yellow);
+	border: 4px outset #323232;
+	width:14%;
+	text-align:center;	
+	border-radius: 10px;
+}
+
+.profilruta {
+		height:70%;
+	}
+
+ul li:before{
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+ul li:first-of-type{
+	margin-left:6%;
+}
+
+ul li:hover{
+	border:4px inset yellow;
+	
+}
+
+ul a{
+	text-decoration:none;
+}
+
+a:link,a:visited,a:focus,a:hover,a:active{
+	color: white;
+}
+
+#wrapper{
+	width:85%;
+	margin:0 auto; /*centrering*/
+	background:#ccccff;
+	background: linear-gradient(#ccccff, #0000b3);
+	color:white;
+}
+
+#content{
+	float:left;
+ width:75%;
+	margin-left:10px;
+ }
+	
+	#produkter #content{
+		margin:0 auto;
+		width: 100%;
+	}
+ 
+#index #content p{
+	margin-left:50px;
+	display: inline;
+}
+
+#index #content p:first-of-type{
+	margin-top:0;
+}
+
+article{
+	display:inline-block;
+	margin-top:15px;
+	width:90%;
+	padding:0;
+	border-bottom: 2px dashed yellow;
+}
+
+article:first-of-type{
+	margin-top: 0;
+}
+
+article:Last-child{
+	border-bottom:none;
+}
+
+aside{
+	float:right;
+	width:20%;
+}
+
+aside p{
+	padding-left:0;
+	padding-right: 1.2em;
+	text-align: justify;
+	
+}
+aside p:first-of-type{
+	  margin-top:0;
+}
+ 
+footer{
+	position:relative;
+	margin: 10px auto;
+	text-align:center;
+	height:30px;
+	width:85%;
+	bottom:10px;
+	padding-top:10px;
+	padding-bottom:0;
+	background-color:#ffffb3;	
+}
+
+#index figure{
+	float:left;
+	margin:0px 10px 15px 10px;
+}
+
+main{
+	padding:10px;
+	color:white;
+}
+
+main:after{
+	content:"";
+	display:block;
+	clear:both;
+}
+
+section:after{
+	content:"";
+	display:block;
+	clear:both;
+}
+
+figcaption{
+	text-align:center;
+	text-transform:uppercase;
+}
+
+figure img{
+	width:100px;
+	height:100px;
+}
+
+#sida3 figure{
+	float:left;
+	margin-left:50px;
+}
+
+#produkter h2, #sida3 h2{
+	text-align: center;
+	color:moccasin;
+	font-size: 2em;
+	margin-top:0;
+}
+
+#produkter table{
+	width:90%;
+	border: 3px solid red;
+	border-collapse: collapse;
+	margin:0 auto;
+}
+
+#produkter thead{
+		font-size: 1.5em;
+}
+
+#produkter tbody{
+		font-size: 1.2em;
+}
+
+#produkter td, #produkter th{
+	border: 1px solid red;
+	padding-left:20px;
+}
+
+
+#produkter th:nth-child(1){
+	text-align: left;
+	
+}
+
+#produkter td:nth-child(3), #produkter td:nth-child(4), #produkter td:nth-child(5){
+	text-align: center;
+}
+
+#produkter table a:link, #produkter table a:visited, #produkter table a:focus, #produkter table a:active{
+	color:white;
+}
+
+#produkter table img{
+	width:100px;
+}
+
+#sida3 #content p{
+	display: block;
+	margin:0;
+	margin-top:5px;
+	padding:0;
+	border:2px outset red;
+		box-shadow: 2px 2px black;
+}
+
+#sida3 #content p:hover{
+	border:2px inset orange;
+
+}
+
+figcaption a{
+	text-decoration: none;
+}
+
+#login main{
+	margin:auto;
+	width:75%;
+	background-color:#f2f2f2;
+	color: black;
+	margin-bottom: 10px;
+}
+
+#login form{
+	color:#2f2f2f;
+}
+
+#login label{
+	 display:inline-block;
+		text-align:right;
+		padding-right:10px;
+		width:120px;
+}
+
+#login input[type="submit"], .create{
+	    margin-left:132px;
+}
+
+#login .create> a{
+		color:black;
+}
+
+#login h2{
+	  color: black;			
+}
+
+#produkter input[type="submit"]{
+	    margin-left:615px;
+					margin-top:25px;
+					margin-bottom: 15px;
+					height:45px;
+					width:150px;
+					font-size: 1.3em;
+}
+
