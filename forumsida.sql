@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 17 mars 2020 kl 13:09
+-- Tid vid skapande: 25 mars 2020 kl 10:25
 -- Serverversion: 10.4.6-MariaDB
 -- PHP-version: 7.3.9
 
@@ -56,7 +56,7 @@ CREATE TABLE `posts` (
 CREATE TABLE `users` (
   `UserID` int(10) UNSIGNED NOT NULL,
   `username` varchar(20) COLLATE utf8_swedish_ci NOT NULL,
-  `password` varchar(30) COLLATE utf8_swedish_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
   `bio` varchar(100) COLLATE utf8_swedish_ci NOT NULL,
   `profilbild` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `status` int(10) NOT NULL
@@ -67,7 +67,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `username`, `password`, `bio`, `profilbild`, `status`) VALUES
-(1, 'Test', 'test', 'hejhej min bio', 'bilder någon stans', 1);
+(14, 'Andre2', '$2y$10$Hyf8t2HK1EFJrk.1/afSxOGFHoqt7vQSYYNDPvkM0ACLrGZipGZCK', 'abc123', '', 1),
+(15, 'Andre', '$2y$10$5k3ADH0xrr36GmzDqpGckOUzNCnd8yPVJVBGMtn8qfVuwdyEMTu8K', 'Mitt lÃ¶sen Ã¤r abc123', 'kommer snart kanske ', 1);
 
 --
 -- Index för dumpade tabeller
@@ -107,7 +108,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT för tabell `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
