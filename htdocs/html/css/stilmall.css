@@ -41,6 +41,18 @@ header>h1{
 	margin:0;
 }
 
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 15px;
+}
+
+table {
+  border-spacing: 5px;
+}
+
 ul li {
 	display: inline-block;
 	height: 90%;   
