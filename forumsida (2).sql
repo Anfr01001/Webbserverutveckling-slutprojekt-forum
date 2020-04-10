@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 31 mars 2020 kl 10:30
+-- Tid vid skapande: 10 apr 2020 kl 21:25
 -- Serverversion: 10.4.6-MariaDB
 -- PHP-version: 7.3.9
 
@@ -29,10 +29,22 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `kommentarer` (
+  `KommentarID` int(100) NOT NULL,
   `PostID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
   `text` varchar(100) COLLATE utf8_swedish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumpning av Data i tabell `kommentarer`
+--
+
+INSERT INTO `kommentarer` (`KommentarID`, `PostID`, `UserID`, `text`) VALUES
+(49, 8, 15, 'Top kommentar'),
+(50, 9, 15, 'Lite lÃ¤ngre ned'),
+(51, 31, 15, 'Mitten typ ish'),
+(52, 32, 15, 'JÃ¤vligt lÃ¥ngt ner kommentar '),
+(53, 33, 15, 'Och en sista kommentar pÃ¥ inlÃ¤gget lÃ¤ngst ned');
 
 -- --------------------------------------------------------
 
@@ -52,9 +64,11 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`PostID`, `skapare`, `titel`, `text`) VALUES
-(1, 14, 'hejhej', 'hejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhejhej'),
-(2, 15, 'ny grej', 'ny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grejny grej'),
-(3, 15, 'Ett nytt fint inlägg ', 'Sysselsättningen väntas falla 2020.\r\n\r\n– De branscher som drabbas hårdast är hotell, restauranger och handel, säger Magdalena Andersson.\r\n\r\nArbetslösheten väntas samtidigt stiga kraftigt, till nio pro');
+(8, 15, 'Titel', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend, nulla sit amet pharetra posuere, massa ex condimentum leo, a lobortis mi mi sit amet risus. Phasellus non libero in justo males'),
+(9, 15, 'Titel 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend, nulla sit amet pharetra posuere, massa ex condimentum leo, a lobortis mi mi sit amet risus. Phasellus non libero in justo males'),
+(31, 15, 'En ny post', 'Hej hej hÃ¤r ska jag testa kommentarerna'),
+(32, 15, 'En ny post', 'Hej hej hÃ¤r ska jag testa kommentarerna'),
+(33, 15, 'Ett nytt fint inlÃ¤gg ', 'Fint snyggt inlÃ¤gg fÃ¶r att kolla om kommentarer fungerar');
 
 -- --------------------------------------------------------
 
@@ -88,6 +102,7 @@ INSERT INTO `users` (`UserID`, `username`, `password`, `bio`, `profilbild`, `sta
 -- Index för tabell `kommentarer`
 --
 ALTER TABLE `kommentarer`
+  ADD PRIMARY KEY (`KommentarID`),
   ADD KEY `PostID` (`PostID`),
   ADD KEY `UserID` (`UserID`);
 
@@ -109,10 +124,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT för tabell `kommentarer`
+--
+ALTER TABLE `kommentarer`
+  MODIFY `KommentarID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
 -- AUTO_INCREMENT för tabell `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `PostID` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `PostID` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT för tabell `users`

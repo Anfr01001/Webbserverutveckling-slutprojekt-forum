@@ -1,12 +1,57 @@
 <?php
-
+//Hämta posts
 include"Connect.php";
 $sql= "SELECT * FROM posts"; 
+	$respost = $dbh->prepare($sql);
+	$respost->execute();
+	$resultpost =$respost->get_result();
+
+//Kolla om användaren skrivit nytt inlägg	
+$Titel = filter_input(INPUT_POST,'Titel', FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+$Text = filter_input(INPUT_POST,'Text', FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+if (isset($Titel) && isset($Text) && (strlen($Text) > 1) && isset($_SESSION['username']))	{
+	
+	echo "försöker med inlägg";
+	
+	$sql= "SELECT UserID FROM users WHERE username=?"; 
+	$res = $dbh->prepare($sql);
+	$res->bind_param("s", $_SESSION['username']);
+	$res->execute();
+	$result =$res->get_result();
+	$result = $result->fetch_assoc();
+	$UserID = $result['UserID'];
+	
+	$sql="INSERT INTO posts(skapare,titel,text) VALUE(?,?,?)";
+	$res = $dbh->prepare($sql);
+	$res->bind_param("iss", $UserID, $Titel, $Text);
+	$res->execute();
+}
+
+//Kolla om användaren har skrivit en kommentar
+$sql= "SELECT PostID FROM posts"; 
 	$res = $dbh->prepare($sql);
 	$res->execute();
 	$result =$res->get_result();
+
+while ($idRow = $result->fetch_assoc()){
+$Kommentar = filter_input(INPUT_POST,'Kommentar' . $idRow['PostID'] , FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+//$ID = filter_input(INPUT_POST,'PostID', FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+if (isset($Kommentar) && (strlen($Kommentar) > 1)){
+
+	$sql= "SELECT UserID FROM users WHERE username=?"; 
+	$resname = $dbh->prepare($sql);
+	$resname->bind_param("s", $_SESSION['username']);
+	$resname->execute();
+	$resultname =$resname->get_result();
+	$resultname = $resultname->fetch_assoc();
+	$UserID = $resultname['UserID'];
 	
-	
+	$sql="INSERT INTO kommentarer(PostID,UserID,text) VALUE(?,?,?)";
+	$res = $dbh->prepare($sql);
+	$res->bind_param("iis", $idRow['PostID'], $UserID, $Kommentar);
+	$res->execute();
+}
+}
 
 ?>
 <!DOCTYPE html>
@@ -25,15 +70,17 @@ $sql= "SELECT * FROM posts";
 				 require "../php/Meny.php";
 				 require "../php/Header.php";
 				?>
-			
-				<table>
+	
+	<!--Alla inlägg kommentarer med mera är i denna tabellen-->
+<table>
   <tr>
     <th>Inlägg</th>
     <th>Skapare</th>
   </tr>
   
   <?php
-  while($row = $result->fetch_assoc()) {
+  //echo in alla inlägg från databsen
+  while($row = $resultpost->fetch_assoc()) {
 	  //tar eda på vem som postat (med userID)
 	$sql2= "SELECT username FROM users WHERE UserID=?"; 
 	$res2 = $dbh->prepare($sql2);
@@ -43,35 +90,63 @@ $sql= "SELECT * FROM posts";
 	$name = $result2->fetch_assoc();
 	$name = $name['username'];
 	
-	
-	echo "<tr> <td>";
-	echo $row['titel'];
-	echo "</td></tr>";
-	echo "<tr>";
-	echo "<td>";
-    echo $row['text'];
-	echo "</td>";
-    echo "<td>";
-	echo $name;
-	echo "</td>";
-  echo"
-  </tr>
-  <tr>
-  <td>Kommentarsfält</td>
-  </tr>";
-	}
-	
-	echo "<tr> <td>";
-	echo "Skapa nytt inlägg";
-	echo "</td></tr>";
-	
-	echo <<<NyPost
-<form action="index.php" method="post">
+echo <<<Nyttinlagg
 	<tr> <td>
+	{$row['titel']}
+	</td></tr>
+	<tr><td>
+    {$row['text']}
+	</td><td>
+	{$name}
+	</td></tr>
+Nyttinlagg;
+
+  /* Eftersom detta är en loop som kör igenom alla inägg
+  * Kollar jag här om det finns kommentarer som ska in pga vi har post id
+  * och det är enklast att här implementera in det i tabellen*/
+  
+	$sql= "SELECT * FROM kommentarer WHERE PostID=?"; 
+	$reskommentar = $dbh->prepare($sql);
+	$reskommentar->bind_param("i", $row['PostID']);
+	$reskommentar->execute();
+	$resultkommentar =$reskommentar->get_result();
+
+	echo "<tr><td>";
+
+	while($rowkommentar = $resultkommentar->fetch_assoc()) {
+		
+		//tar eda på vem som postat (med userID) Ska kolla om jag kan göra detta till en funktion 
+	$sqltemp = "SELECT username FROM users WHERE UserID=?"; 
+	$restemp = $dbh->prepare($sqltemp);
+	$restemp->bind_param("i", $rowkommentar['UserID']);
+	$restemp->execute();
+	$resulttemp =$restemp->get_result();
+	$name = $resulttemp->fetch_assoc();
+		
+	
+		echo $name['username']; echo": "; echo $rowkommentar['text'];
+		echo "<br>";
+	}
+  //Om användaren är inloggad visa ny kommentar fält
+	if(isset($_SESSION['username'])) {
+		echo <<<Nykommentar
+	<form action="index.php" method="post">
+	<p><label for="text">Kommentar:</label>
+	<input type="text" id="Kommentar" name="Kommentar{$row['PostID']}">
+	<input type="hidden" id="PostID" name="PostID" value={$row['PostID']}>
+	<input type="submit" value="Kommentera">
+Nykommentar;
+	}
+  echo "</td></tr>";
+	}
+//Om användaren är inloggad visa fält för att skapa nytt inlägg
+if(isset($_SESSION['username'])) {
+	echo <<<NyPost
+	<form action="index.php" method="post">
+	<tr> <td>
+	<p>Skapa nytt inlägg</p>
 	<p><label for="text">Titel:</label>
 	<input type="text" id="Titel" name="Titel">
-	</td></tr>
-	<tr> <td>
     <p><label for="text">Text:</label>
 	<input type="text" id="Text" name="Text">
 	</td>
@@ -79,9 +154,7 @@ $sql= "SELECT * FROM posts";
 	<input type="submit" value="Skapa inlägg">
 	</td>
 NyPost;
- 
- 
- 
+}
  ?>
 </table>
 			
