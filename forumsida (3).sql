@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 10 apr 2020 kl 21:25
+-- Tid vid skapande: 14 apr 2020 kl 10:44
 -- Serverversion: 10.4.6-MariaDB
 -- PHP-version: 7.3.9
 
@@ -44,7 +44,9 @@ INSERT INTO `kommentarer` (`KommentarID`, `PostID`, `UserID`, `text`) VALUES
 (50, 9, 15, 'Lite lÃ¤ngre ned'),
 (51, 31, 15, 'Mitten typ ish'),
 (52, 32, 15, 'JÃ¤vligt lÃ¥ngt ner kommentar '),
-(53, 33, 15, 'Och en sista kommentar pÃ¥ inlÃ¤gget lÃ¤ngst ned');
+(53, 33, 15, 'Och en sista kommentar pÃ¥ inlÃ¤gget lÃ¤ngst ned'),
+(54, 8, 17, 'En ny kommentar frÃ¥n en ny person yippie'),
+(55, 9, 17, 'HÃ¤r kommentarar jag ocksÃ¥ lite');
 
 -- --------------------------------------------------------
 
@@ -91,8 +93,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`UserID`, `username`, `password`, `bio`, `profilbild`, `status`) VALUES
 (14, 'Andre2', '$2y$10$Hyf8t2HK1EFJrk.1/afSxOGFHoqt7vQSYYNDPvkM0ACLrGZipGZCK', 'abc123', '', 1),
-(15, 'Andre', '$2y$10$5k3ADH0xrr36GmzDqpGckOUzNCnd8yPVJVBGMtn8qfVuwdyEMTu8K', 'Mitt lÃ¶sen Ã¤r abc123', 'kommer snart kanske ', 1),
-(16, 'Test1', '$2y$10$iwpLZXDNUDxnELo/HetEpOCUvhKyrFdI/04lzNTQavETkqVLtiK3G', 'hejhejhej', 'bilder/squarecharacter.png', 1);
+(15, 'Andre', '$2y$10$5k3ADH0xrr36GmzDqpGckOUzNCnd8yPVJVBGMtn8qfVuwdyEMTu8K', 'Mitt lÃ¶sen Ã¤r abc123', '../html/bilder/squarecharacter.png', 1),
+(16, 'Test1', '$2y$10$iwpLZXDNUDxnELo/HetEpOCUvhKyrFdI/04lzNTQavETkqVLtiK3G', 'hejhejhej', 'bilder/squarecharacter.png', 1),
+(17, 'Bananen', '$2y$10$gQK9xWMauaDeYg3BSFvM/ebnY2G7wqjho09StYfp88zKo3zt8jFy2', 'Mitt lÃ¶sen Ã¤r qwe123. Men annars tycker jag om att kÃ¤ka bananer och kolla pÃ¥ tv. Jag Ã¤lskar myr', 'bilder/discord pic.png', 1);
 
 --
 -- Index för dumpade tabeller
@@ -127,7 +130,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT för tabell `kommentarer`
 --
 ALTER TABLE `kommentarer`
-  MODIFY `KommentarID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `KommentarID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT för tabell `posts`
@@ -139,7 +142,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT för tabell `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

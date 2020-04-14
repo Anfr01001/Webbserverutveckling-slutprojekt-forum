@@ -14,6 +14,9 @@ $str="";
 		elseif($value==3){
 			$str="Du har loggat ut";
 		}
+		elseif($value==4){
+			$str="Logga in för att se profiler";
+		}
 	}
 
 $username = filter_input(INPUT_POST,'username', FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);

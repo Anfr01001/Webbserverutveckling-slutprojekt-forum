@@ -11,8 +11,7 @@ $Titel = filter_input(INPUT_POST,'Titel', FILTER_SANITIZE_STRING,FILTER_FLAG_STR
 $Text = filter_input(INPUT_POST,'Text', FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
 if (isset($Titel) && isset($Text) && (strlen($Text) > 1) && isset($_SESSION['username']))	{
 	
-	echo "försöker med inlägg";
-	
+	//Få användarens UserID (ska göras om till funktion)
 	$sql= "SELECT UserID FROM users WHERE username=?"; 
 	$res = $dbh->prepare($sql);
 	$res->bind_param("s", $_SESSION['username']);
@@ -21,23 +20,26 @@ if (isset($Titel) && isset($Text) && (strlen($Text) > 1) && isset($_SESSION['use
 	$result = $result->fetch_assoc();
 	$UserID = $result['UserID'];
 	
+	//Användaren har skrivit nytt inlägg lägg in det i databasen
 	$sql="INSERT INTO posts(skapare,titel,text) VALUE(?,?,?)";
 	$res = $dbh->prepare($sql);
 	$res->bind_param("iss", $UserID, $Titel, $Text);
 	$res->execute();
 }
 
-//Kolla om användaren har skrivit en kommentar
+//Nästa check Kolla om användaren har skrivit en kommentar
 $sql= "SELECT PostID FROM posts"; 
 	$res = $dbh->prepare($sql);
 	$res->execute();
 	$result =$res->get_result();
 
+//Vi måste gå igenom värje post som har en egen form.
+// För värje post skapas också en form som heter Kommentar och sen ID för den posten för att hålla reda på vart posten ska.
 while ($idRow = $result->fetch_assoc()){
 $Kommentar = filter_input(INPUT_POST,'Kommentar' . $idRow['PostID'] , FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
-//$ID = filter_input(INPUT_POST,'PostID', FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
 if (isset($Kommentar) && (strlen($Kommentar) > 1)){
 
+	//ska bli funktion
 	$sql= "SELECT UserID FROM users WHERE username=?"; 
 	$resname = $dbh->prepare($sql);
 	$resname->bind_param("s", $_SESSION['username']);
@@ -46,6 +48,7 @@ if (isset($Kommentar) && (strlen($Kommentar) > 1)){
 	$resultname = $resultname->fetch_assoc();
 	$UserID = $resultname['UserID'];
 	
+	//lägg till kommentaren i databasen
 	$sql="INSERT INTO kommentarer(PostID,UserID,text) VALUE(?,?,?)";
 	$res = $dbh->prepare($sql);
 	$res->bind_param("iis", $idRow['PostID'], $UserID, $Kommentar);

@@ -20,7 +20,9 @@ $passwordnew  = password_hash($passwordnew, PASSWORD_DEFAULT);
 if(!empty($usernamenew) && !empty($passwordnew) ) {
 
 $target_dir = "bilder/"; 
-
+/*
+* Delen för att man ska kunna ladda upp bilder har jag INTE skrivit själv hittade på W3 schools
+*/
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -63,6 +65,9 @@ if ($uploadOk == 0) {
     }
 }
 	
+/*
+* Allt härifrån är skrivtet av mig då det inte handlar om att importa bilden
+*/
 
 	
 	//kollar inte efter profilbild eller bio då de kan vara tomma
@@ -109,7 +114,7 @@ if ($uploadOk == 0) {
 				<main> <!--Huvudinnehåll-->
 				<section>
 				<?php echo $str ?>
-					 <form action="NyAnvändare.php" method="post" enctype="multipart/form-data">
+			<form action="NyAnvändare.php" method="post" enctype="multipart/form-data">
             <p><label for="user">Användarnamn:</label>
             <input type="text" id="user" name="usernamenew"></p>
             <p><label for="pwd">Lösenord:</label>
