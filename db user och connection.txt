@@ -1,0 +1,4 @@
+Skapa en ny databas som heter "forumsida" importera filen till denna databas
+Skapa en localhost Namn: dbuser Lösen: qwe123 och som har tillgång till databasen
+
+$dbh = new mysqli("localhost","dbuser","qwe123","forumsida");

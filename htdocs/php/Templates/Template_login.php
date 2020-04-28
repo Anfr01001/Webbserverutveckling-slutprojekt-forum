@@ -42,7 +42,7 @@ if(!empty($username) || !empty($password)) {
 		if(password_verify($password, $row['password'])){
 			$_SESSION['username'] = $username; 
 			echo "Inloggad";
-			header("location:profil.php");
+			header("location:profil.php?value={$username}");
 		} else {
 		header("location:login.php?value=2");
 		}
@@ -68,7 +68,7 @@ if(!empty($username) || !empty($password)) {
 				<main> <!--Huvudinnehåll-->
 				<section>
 				<?php echo $str ?>
-					 <form action="login.php" method="post">
+			<form action="login.php" method="post">
             <p><label for="user">Användarnamn:</label>
             <input type="text" id="user" name="username"></p>
             <p><label for="pwd">Lösenord:</label>
