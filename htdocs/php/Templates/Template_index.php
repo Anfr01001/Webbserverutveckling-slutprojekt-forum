@@ -1,6 +1,7 @@
 <?php
 //Hämta posts
-include"Connect.php";
+require"Connect.php";
+require"functions.php";
 $sql= "SELECT * FROM posts"; 
 	$respost = $dbh->prepare($sql);
 	$respost->execute();
@@ -11,14 +12,8 @@ $Titel = filter_input(INPUT_POST,'Titel', FILTER_SANITIZE_STRING,FILTER_FLAG_STR
 $Text = filter_input(INPUT_POST,'Text', FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
 if (isset($Titel) && isset($Text) && (strlen($Text) > 1) && isset($_SESSION['username']))	{
 	
-	//Få användarens UserID (ska göras om till funktion)
-	$sql= "SELECT UserID FROM users WHERE username=?"; 
-	$res = $dbh->prepare($sql);
-	$res->bind_param("s", $_SESSION['username']);
-	$res->execute();
-	$result =$res->get_result();
-	$result = $result->fetch_assoc();
-	$UserID = $result['UserID'];
+	//Få användarens UserID med hjälp av funktion
+	$UserID = getUserId($_SESSION['username']);
 	
 	//Användaren har skrivit nytt inlägg lägg in det i databasen
 	$sql="INSERT INTO posts(skapare,titel,text) VALUE(?,?,?)";
@@ -39,14 +34,8 @@ while ($idRow = $result->fetch_assoc()){
 $Kommentar = filter_input(INPUT_POST,'Kommentar' . $idRow['PostID'] , FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
 if (isset($Kommentar) && (strlen($Kommentar) > 1)){
 
-	//ska bli funktion
-	$sql= "SELECT UserID FROM users WHERE username=?"; 
-	$resname = $dbh->prepare($sql);
-	$resname->bind_param("s", $_SESSION['username']);
-	$resname->execute();
-	$resultname =$resname->get_result();
-	$resultname = $resultname->fetch_assoc();
-	$UserID = $resultname['UserID'];
+	//Få UserID med hjälp av funktion
+	$UserID = getUserId($_SESSION['username']);
 	
 	//lägg till kommentaren i databasen
 	$sql="INSERT INTO kommentarer(PostID,UserID,text) VALUE(?,?,?)";
@@ -84,14 +73,13 @@ if (isset($Kommentar) && (strlen($Kommentar) > 1)){
   <?php
   //echo in alla inlägg från databsen
   while($row = $resultpost->fetch_assoc()) {
-	  //tar eda på vem som postat (med userID)
-	$sql2= "SELECT username FROM users WHERE UserID=?"; 
-	$res2 = $dbh->prepare($sql2);
-	$res2->bind_param("i", $row['skapare']);
-	$res2->execute();
-	$result2 =$res2->get_result();
-	$name = $result2->fetch_assoc();
-	$name = $name['username'];
+	  
+	//tar eda på vem som postat (med userID från databasen) med hjälp av funktion
+	$name = getUserName($row['skapare']);
+	
+	if ($name == null) {
+		$name = "Bortagen användare";
+	}
 	
 echo <<<Nyttinlagg
 	<tr> <td>
@@ -100,7 +88,7 @@ echo <<<Nyttinlagg
 	<tr><td>
     {$row['text']}
 	</td><td>
-	{$name}
+	<a href="profil.php?value={$name}">{$name}</a>
 	</td></tr>
 Nyttinlagg;
 
@@ -118,16 +106,12 @@ Nyttinlagg;
 
 	while($rowkommentar = $resultkommentar->fetch_assoc()) {
 		
-		//tar eda på vem som postat (med userID) Ska kolla om jag kan göra detta till en funktion 
-	$sqltemp = "SELECT username FROM users WHERE UserID=?"; 
-	$restemp = $dbh->prepare($sqltemp);
-	$restemp->bind_param("i", $rowkommentar['UserID']);
-	$restemp->execute();
-	$resulttemp =$restemp->get_result();
-	$name = $resulttemp->fetch_assoc();
+		//tar eda på vem som postat (med userID) med hjälp av funktion
+
+	$name = getUserName($rowkommentar['UserID']);
 		
 	
-		echo $name['username']; echo": "; echo $rowkommentar['text'];
+		echo $name; echo": "; echo $rowkommentar['text'];
 		echo "<br>";
 	}
   //Om användaren är inloggad visa ny kommentar fält

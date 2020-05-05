@@ -1,11 +1,16 @@
 <?php
-include"Connect.php";
+require"Connect.php";
+require"functions.php";
 
-if (isset ($_GET['value'])){
+if (isset($_GET['value'])){
 		$profileuser=$_GET['value'];
+		if ($profileuser == "Bortagen användare") {
+			header("location:index.php");
+		}
 	} else {
-		//header("location:login.php?value=4");
+		header("location:login.php?value=4");
 	}
+	
 	
 		
 	//om användren uppdaterar lösen eller liknande
@@ -21,6 +26,11 @@ if (isset ($_GET['value'])){
 		}
 	}
 	
+	$ShowMeny = false;
+	//kontot är ditt visa menyerna för att byta lösen mm.
+	if ($profileuser == $_SESSION['username']){
+		$ShowMeny = true;
+	}
 
 	$sql= "SELECT * FROM users WHERE username=?"; 
 	$res = $dbh->prepare($sql);
@@ -61,8 +71,8 @@ if (isset ($_GET['value'])){
 HTML;
 
 
-				?>
-				<h2> Uppdatera information </h2>	
+	$html = <<<MENY
+	<h2> Uppdatera information </h2>	
 		
 	<form action="BytPassword.php" method="post">
 	<label for="text">Ändra lösen:</label>
@@ -81,7 +91,26 @@ HTML;
 	<input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="Upload Image" name="submit">
 	</form>
-				</main>
+	
+MENY;
+
+$userID = getUserId($result['username']);
+
+$admin = <<<admin
+	
+	<form action="Remove.php" method="post">
+	<input id="userID" name="userID" type="hidden" value="{$userID}">
+	<input type="submit" value="Ta bort konto">
+	</form>
+	
+admin;
+
+
+	
+	if ($ShowMeny) {echo $html;}
+	if (isAdmin($_SESSION['username'])) {echo $admin;}
+	?>
+		</main>
 		</div>
 
   </body>
